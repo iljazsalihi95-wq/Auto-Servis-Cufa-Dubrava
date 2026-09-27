@@ -1,0 +1,15 @@
+{
+  "name": "Auto Servis Cufa – Dubrava",
+  "short_name": "CUFA",
+  "description": "Auto Servis Cufa – Dubrava",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#090c0f",
+  "theme_color": "#e50914",
+  "lang": "sq",
+  "categories": [
+    "automotive",
+    "business"
+  ]
+}
