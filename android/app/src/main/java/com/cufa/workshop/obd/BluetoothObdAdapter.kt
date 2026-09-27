@@ -68,18 +68,34 @@ class BluetoothObdAdapter(context: Context) : ObdAdapter {
 
     override suspend fun disconnect() { runCatching { socket?.close() }; socket=null; connected=false }
 
+    private fun hex(raw:String)=Regex("[0-9A-Fa-f]{2}").findAll(raw.replace("\r"," ").replace("\n"," ")).map{it.value.uppercase()}.toList()
+    private fun dtc(a:Int,b:Int):String{ val letters=arrayOf("P","C","B","U"); return letters[(a shr 6) and 3]+String.format("%01X%02X",a and 0x3F,b) }
+    private fun payload(raw:String, mode:String, pid:String?=null):List<Int>{
+        val h=hex(raw); val marker=(mode.toInt(16)+0x40).toString(16).uppercase().padStart(2,'0')
+        val i=if(pid==null) h.indexOf(marker) else h.windowed(2).indexOf(listOf(marker,pid.uppercase()))
+        if(i<0)return emptyList(); val start=i+1+(if(pid==null)0 else 1); return h.drop(start).map{it.toInt(16)}
+    }
+
     override suspend fun readVin(): Result<String?> = runCatching {
-        val raw=command("0902")
-        raw.takeIf { it.isNotBlank() && !it.contains("NO DATA",true) }
+        val bytes=payload(command("0902"),"09","02")
+        bytes.dropWhile{it<0x20}.filter{it in 0x20..0x7E}.map{it.toChar()}.joinToString("").trim().takeIf{it.length>=11}
     }
 
     override suspend fun readDtcs(): Result<List<Dtc>> = runCatching {
-        val raw=command("03")
-        if(raw.contains("NO DATA",true)) emptyList() else listOf(Dtc(raw, "Raw OBD-II response"))
+        val b=payload(command("03"),"03"); b.chunked(2).filter{it.size==2 && !(it[0]==0&&it[1]==0)}.map{Dtc(dtc(it[0],it[1]),"OBD-II")}
     }
 
     override suspend fun readLiveData(pids: List<String>): Result<List<LivePid>> = runCatching {
-        pids.map { pid -> LivePid(pid, command(pid), "") }
+        pids.map { cmd ->
+            val pid=cmd.takeLast(2).uppercase(); val b=payload(command(cmd),"01",pid)
+            when(pid){
+                "0C" -> LivePid("RPM", if(b.size>=2) ((b[0]*256+b[1])/4.0).toString() else "N/A","rpm")
+                "0D" -> LivePid("Shpejtësia", b.firstOrNull()?.toString()?:"N/A","km/h")
+                "05" -> LivePid("Temperatura motorit", b.firstOrNull()?.let{(it-40).toString()}?:"N/A","°C")
+                "42" -> LivePid("Tensioni", if(b.size>=2) String.format("%.3f",(b[0]*256+b[1])/1000.0) else "N/A","V")
+                else -> LivePid(pid,b.joinToString(" "){"%02X".format(it)},"")
+            }
+        }
     }
 
     override fun isConnected() = connected
