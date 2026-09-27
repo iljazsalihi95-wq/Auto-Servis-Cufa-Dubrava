@@ -1,15 +1,12 @@
 {
   "name": "Auto Servis Cufa – Dubrava",
   "short_name": "CUFA",
-  "description": "Auto Servis Cufa – Dubrava",
+  "description": "CUFA Workshop, termine, servis dhe diagnostikë",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#090c0f",
-  "theme_color": "#e50914",
+  "background_color": "#090b0d",
+  "theme_color": "#090b0d",
   "lang": "sq",
-  "categories": [
-    "automotive",
-    "business"
-  ]
+  "orientation": "any"
 }
