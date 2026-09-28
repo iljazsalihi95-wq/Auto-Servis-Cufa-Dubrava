@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://auto-servis-cufa-dubrava.netlify.app/sitemap.xml
