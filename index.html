@@ -83,6 +83,9 @@ html,body{max-width:100%;overflow-x:hidden}
 
 .brandLogo{display:flex;align-items:center;flex:0 0 auto}.brandLogo img{display:block;width:178px;height:74px;object-fit:contain;filter:drop-shadow(0 4px 12px #0008)}
 @media(max-width:850px){.brandLogo img{width:128px;height:70px}}
+
+.pwaInstall{position:fixed;right:18px;bottom:88px;z-index:9998;border:0;border-radius:999px;padding:13px 18px;background:#e50914;color:#fff;font-weight:900;box-shadow:0 8px 25px #0007;cursor:pointer}
+.pwaInstall[hidden]{display:none!important}
 </style>
 </head>
 <body>
@@ -133,4 +136,23 @@ function closeServiceInfo(){document.getElementById('serviceModal').classList.re
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeServiceInfo()});
 
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}))}
+</script><button id="pwaInstallBtn" class="pwaInstall" type="button">📲 INSTALO</button>
+<script>
+let deferredPwaPrompt=null;
+const pwaBtn=document.getElementById('pwaInstallBtn');
+function isStandalone(){return window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true}
+if(isStandalone()) pwaBtn.hidden=true;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPwaPrompt=e;pwaBtn.hidden=false});
+window.addEventListener('appinstalled',()=>{deferredPwaPrompt=null;pwaBtn.hidden=true});
+pwaBtn.addEventListener('click',async()=>{
+ if(isStandalone()){pwaBtn.hidden=true;return}
+ if(deferredPwaPrompt){
+   deferredPwaPrompt.prompt();
+   await deferredPwaPrompt.userChoice;
+   deferredPwaPrompt=null;
+   return;
+ }
+ const ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
+ alert(ios?'Për ta instaluar: shtyp Share dhe pastaj “Add to Home Screen”.':'Në Chrome: hap menunë ⋮ dhe zgjidh “Install app” ose “Add to Home screen”.');
+});
 </script></body></html>
