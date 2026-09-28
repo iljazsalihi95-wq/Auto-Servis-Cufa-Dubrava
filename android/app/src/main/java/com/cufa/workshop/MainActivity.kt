@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
             webViewClient = object : WebViewClient() {
                 override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
                     if (url == null) return false
-                    if (url.startsWith("tel:") || url.startsWith("mailto:") || url.contains("maps.google")) {
+                    if (url.startsWith("tel:") || url.startsWith("mailto:") || url.startsWith("viber:") || url.contains("wa.me") || url.contains("whatsapp.com") || url.contains("maps.google")) {
                         startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
                         return true
                     }
