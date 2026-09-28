@@ -27,7 +27,7 @@ class BluetoothObdAdapter(context: Context) : ObdAdapter {
             ?: emptyList()
 
     override suspend fun connect(device: ObdDevice): Result<Unit> = runCatching {
-        val remote: BluetoothDevice = adapter?.getRemoteDevice(device.address)
+        val remote: BluetoothDevice = adapter?.getRemoteDevice(device.id)
             ?: error("Bluetooth nuk është aktiv")
         socket?.close()
         socket = remote.createRfcommSocketToServiceRecord(spp)
@@ -69,7 +69,14 @@ class BluetoothObdAdapter(context: Context) : ObdAdapter {
     override suspend fun disconnect() { runCatching { socket?.close() }; socket=null; connected=false }
 
     private fun hex(raw:String)=Regex("[0-9A-Fa-f]{2}").findAll(raw.replace("\r"," ").replace("\n"," ")).map{it.value.uppercase()}.toList()
-    private fun dtc(a:Int,b:Int):String{ val letters=arrayOf("P","C","B","U"); return letters[(a shr 6) and 3]+String.format("%01X%02X",a and 0x3F,b) }
+    private fun dtc(a:Int,b:Int):String{
+        val system="PCBU"[(a shr 6) and 3]
+        val d1=(a shr 4) and 0x3
+        val d2=(a and 0xF).toString(16).uppercase()
+        val d3=((b shr 4) and 0xF).toString(16).uppercase()
+        val d4=(b and 0xF).toString(16).uppercase()
+        return "$system$d1$d2$d3$d4"
+    }
     private fun payload(raw:String, mode:String, pid:String?=null):List<Int>{
         val h=hex(raw); val marker=(mode.toInt(16)+0x40).toString(16).uppercase().padStart(2,'0')
         val i=if(pid==null) h.indexOf(marker) else h.windowed(2).indexOf(listOf(marker,pid.uppercase()))
