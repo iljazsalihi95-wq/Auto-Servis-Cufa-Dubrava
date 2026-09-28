@@ -51,6 +51,26 @@ body{background:#0b0e11;color:#fff}.nav{background:#0b0e11}.hero{padding:45px 5%
 .booking form{padding:12px;gap:8px}.booking input,.booking select,.booking textarea{padding:12px;font-size:13px}.footer{padding:32px 18px;gap:22px}.footer p,.contact-line{font-size:12px}.mobileCta{height:62px;padding:8px 12px}.mobileCta a{padding:11px 6px}.float{bottom:72px}.float a{width:46px;height:46px;font-size:20px}.scrollTop{bottom:72px}
 }
 .realGallery{display:grid!important;grid-template-columns:repeat(5,1fr)!important;gap:10px!important}.realGallery img{display:block;width:100%;height:220px;object-fit:cover;border-radius:6px;cursor:pointer}.realGallery img:hover{transform:scale(1.02);transition:.2s}@media(max-width:700px){.realGallery{display:flex!important;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px}.realGallery img{min-width:82vw;height:260px;scroll-snap-align:center}}
+
+/* Reference layout 2026-09-28 */
+.top{justify-content:space-between;padding:8px 4%;font-size:13px}
+.nav{position:absolute;top:37px;left:0;right:0;background:linear-gradient(#071017e8,#071017b8,transparent);height:92px;padding:0 4%;z-index:30}
+.nav .logo{font-size:13px}.nav .logo b{font-size:34px}.navlinks{gap:26px;font-size:12px}
+.hero{min-height:610px;padding:150px 4% 35px;background:linear-gradient(90deg,rgba(2,7,10,.93) 0%,rgba(2,7,10,.72) 43%,rgba(2,7,10,.18) 72%),url('icons/IMG-20260928-WA0001.jpg') center/cover no-repeat}
+.hero:before{display:none}.hero>div{max-width:720px}.hero h1{font-size:64px}.trust{margin-top:38px}.trust span{background:transparent;border:0;border-radius:0;padding:0}
+#services{padding:22px 2% 28px}.section h2{font-size:28px}.services{max-width:none;grid-template-columns:repeat(8,1fr);gap:8px}.card{padding:18px 10px;text-align:center;border-radius:3px;min-height:185px}.ico{margin:auto;background:transparent;font-size:38px}.card h3{font-size:12px}.card p{font-size:11px}.infoBtn,.go,.process,.serviceHint{display:none!important}
+.about{grid-template-columns:1fr 1fr;min-height:360px}.about-img{font-size:0;background:url('icons/IMG-20260928-WA0004.jpg') center/cover no-repeat}.about-img:after{display:none}.about-text{padding:40px 5%}
+#gallery{padding:22px 4%}.realGallery{grid-template-columns:repeat(5,1fr)!important}.realGallery img{height:190px!important;border-radius:2px!important}
+.stats{background:linear-gradient(90deg,#071017ee,#071017dd),url('icons/IMG-20260928-WA0002.jpg') center/cover;padding:32px 4%;border:0}
+#ai-public{background:#0b1015;color:#fff;padding:42px 5%}#ai-public .sub{color:#c5cbd0}
+.booking{padding:28px 4% 34px}.booking form{max-width:1200px;grid-template-columns:repeat(3,1fr);padding:0;background:transparent;box-shadow:none}.booking form .btn{grid-column:auto}.formTitle,.requiredNote{display:none}.bookingBadge{display:none!important}
+.footer{padding:35px 4%;grid-template-columns:1.1fr 1.2fr 1fr}.copyright{text-align:left;padding:14px 4%}
+@media(max-width:850px){
+ .top{height:38px;overflow:hidden;padding:8px 12px}.nav{position:absolute;top:38px;height:94px;padding:0 18px}.hero{min-height:620px;padding:165px 22px 45px;background-position:center}.hero h1{font-size:48px}.hero p{font-size:18px}
+ .services{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;padding:5px 8px}.services .card{min-width:43vw;scroll-snap-align:start}
+ .about{grid-template-columns:1fr}.about-img{min-height:300px}.realGallery img{min-width:82vw!important;height:280px!important}
+ .booking form{grid-template-columns:1fr}.footer{grid-template-columns:1fr}.navlinks{display:none}
+}
 </style>
 </head>
 <body>
