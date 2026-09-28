@@ -1,28 +1,23 @@
 package com.cufa.workshop
 
-import android.Manifest
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 
 /**
- * CUFA Workshop PRO
- * Hybrid shell: the same Workshop UI/database is used on web/PWA/Android.
- * Native Bluetooth/OBDLink MX+ lives in the Android OBD layer.
+ * CUFA Workshop
+ * Public customer view is the Android start screen.
+ * Admin remains available only through the dedicated admin entry on the site.
  */
 class MainActivity : AppCompatActivity() {
     private lateinit var web: WebView
-    private val permission = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requestBluetooth()
         web = WebView(this).apply {
             settings.javaScriptEnabled = true
             settings.domStorageEnabled = true
@@ -32,20 +27,15 @@ class MainActivity : AppCompatActivity() {
                 override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
                     if (url == null) return false
                     if (url.startsWith("tel:") || url.startsWith("mailto:") || url.contains("maps.google")) {
-                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url))); return true
+                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+                        return true
                     }
                     return false
                 }
             }
-            loadUrl("https://auto-servis-cufa-dubrava.netlify.app/admin.html")
+            loadUrl("https://auto-servis-cufa-dubrava.netlify.app/")
         }
         setContentView(web)
-    }
-
-    private fun requestBluetooth() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            permission.launch(arrayOf(Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.BLUETOOTH_CONNECT))
-        }
     }
 
     @Deprecated("Deprecated in Java")
