@@ -1,8 +1,4 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" android:usesPermissionFlags="neverForLocation"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT"/>
-    <uses-permission android:name="android.permission.BLUETOOTH" android:maxSdkVersion="30"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" android:maxSdkVersion="30"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:theme="@style/Theme.Cufa"
@@ -10,7 +6,7 @@
         android:icon="@drawable/cufa_icon"
         android:roundIcon="@drawable/cufa_icon"
         android:usesCleartextTraffic="false"
-        android:allowBackup="true">
+        android:allowBackup="false">
         <activity android:name=".MainActivity" android:screenOrientation="unspecified" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
